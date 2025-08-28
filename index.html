@@ -1,298 +1,164 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; min-height: 15.0px}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RepEats Revenue Calculator — Views → CTR/CVR → Revenue</title>
+  <style>
+    :root {
+      --bg:#0b0d10;
+      --card:#11151a;
+      --muted:#9fb0c3;
+      --text:#e8edf4;
+      --brand:#7c5cff;
+      --brand2:#0065a8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg,#0b0d10,#0e1217);
+      color: var(--text);
+      font: 400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter;
+    }
+    .container { max-width: 1000px; margin: 32px auto; padding: 0 20px; }
+    header h1 { margin: 0 0 8px; font-size: 28px; }
+    header p { margin: 0; color: var(--muted); }
+    .grid { display: grid; gap: 16px; }
+    .grid-cols-2 { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 980px) {
+      .grid-cols-2 { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    label { font-size: 14px; display: block; margin-bottom: 6px; }
+    input {
+      width: 100%; background: #0f1318; color: var(--text);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+      font-size: 14px;
+    }
+    .kpi { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+    .kpi div {
+      background:#0f1318; border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      padding: 12px;
+      text-align:center;
+    }
+    .kpi .label { color: var(--muted); font-size: 12px; }
+    .kpi .value { font-size: 18px; font-weight: 700; }
+    table {
+      width:100%; border-collapse: separate; border-spacing: 0; margin-top: 8px;
+    }
+    th, td {
+      padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,.08);
+      text-align:right;
+    }
+    th:first-child, td:first-child { text-align:left; }
+    th { color: var(--muted); font-weight: 500; font-size: 13px; }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="utf-8" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;RepEats Revenue Calculator — Views → CTR/CVR → Revenue&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>:root{--bg:#0b0d10;--card:#11151a;--muted:#9fb0c3;--text:#e8edf4;--brand:#7c5cff;--brand2:#00e5a8}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>*{box-sizing:border-box}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body{margin:0;background:linear-gradient(180deg,#0b0d10,#0e1217);color:var(--text);font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.container{max-width:1000px;margin:32px auto;padding:0 20px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>header h1{margin:0 0 6px;font-size:28px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>header p{margin:0;color:var(--muted)}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.grid{display:grid;gap:16px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.cols-2{grid-template-columns:1.1fr .9fr}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width:980px){.cols-2{grid-template-columns:1fr}}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25)}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h2{margin:0 0 10px;font-size:18px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>label{font-size:14px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.row{display:grid;grid-template-columns:1.1fr .9fr;gap:10px;align-items:center;margin-bottom:10px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>input,select{width:100%;background:#0f1318;color:var(--text);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;outline:none}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>input:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(124,92,255,.25)}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.hint{color:var(--muted);font-size:12px;margin-top:-6px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.kpi{background:#0f1318;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.kpi .label{color:var(--muted);font-size:12px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.kpi .val{font-size:20px;margin-top:2px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.table{width:100%;border-collapse:separate;border-spacing:0;margin-top:8px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.table th,.table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);text-align:right}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.table th:first-child,.table td:first-child{text-align:left}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.table th{color:var(--muted);font-weight:600;font-size:13px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>button{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#0b0d10;border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>button.secondary{background:#0f1318;color:var(--text);border:1px solid rgba(255,255,255,.10)}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.warn{color:#ffd666;font-size:12px;margin-top:6px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;header&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1&gt;RepEats Revenue Calculator&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="hint"&gt;Enter accounts, posting volume, and views. Set CTR &amp; CVR and your offer mix → see clicks, orders, revenue, and £ per 1,000 views.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="grid cols-2" style="margin-top:14px"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;section class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Inputs&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;label&gt;Active Accounts Posting&lt;/label&gt;&lt;input id="accounts" type="number" min="0" step="1" value="6"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;label&gt;Posts per Month &lt;span class="hint"&gt;(per account)&lt;/span&gt;&lt;/label&gt;&lt;input id="ppm" type="number" min="0" step="1" value="60"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;label&gt;Views Mode&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;select id="viewMode"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="perPost" selected&gt;Average Views per Post&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="monthly"&gt;Total Monthly Views&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/select&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row" id="row_vpp"&gt;&lt;label&gt;Average Views per Post&lt;/label&gt;&lt;input id="viewsPerPost" type="number" min="0" step="100" value="10000"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row" id="row_mv" style="display:none"&gt;&lt;label&gt;Total Monthly Views&lt;/label&gt;&lt;input id="monthlyViews" type="number" min="0" step="1000" value="0"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;label&gt;CTR (decimal or %)&lt;/label&gt;&lt;input id="ctr" type="number" step="0.001" value="0.01"&gt;&lt;div class="hint"&gt;Enter 0.01 for 1% (or 1 = 1%)&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;&lt;label&gt;CVR (decimal or %)&lt;/label&gt;&lt;input id="cvr" type="number" step="0.001" value="0.02"&gt;&lt;div class="hint"&gt;Enter 0.02 for 2% (or 2 = 2%)&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="toolbar"&gt;&lt;button id="computeNow" class="secondary"&gt;Compute Now&lt;/button&gt;&lt;button id="save"&gt;Save&lt;/button&gt;&lt;button class="secondary" id="load"&gt;Load&lt;/button&gt;&lt;button class="secondary" id="reset"&gt;Reset&lt;/button&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;section class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Offer Mix&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;table class="table" id="mixTable"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;th&gt;Offer&lt;/th&gt;&lt;th&gt;AOV (£)&lt;/th&gt;&lt;th&gt;Mix %&lt;/th&gt;&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;Offer 1 — BOGO&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;input id="aov1" type="number" value="10" step="1"&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;input id="mix1" type="number" value="35" step="1"&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;Offer 2 — Bundle Builder&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;input id="aov2" type="number" value="28" step="1"&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;input id="mix2" type="number" value="40" step="1"&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;Offer 3 — 3-for-£25&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;input id="aov3" type="number" value="25" step="1"&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;input id="mix3" type="number" value="25" step="1"&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/tbody&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hint"&gt;If Mix ≠ 100%, we normalise automatically.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="warn" id="mixWarn" style="display:none"&gt;Mix does not sum to 100%. Normalising for calculations.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="card" style="margin-top:16px"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Results&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="kpis"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="kpi"&gt;&lt;div class="label"&gt;Total Posts / Month&lt;/div&gt;&lt;div class="val" id="k_posts"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="kpi"&gt;&lt;div class="label"&gt;Total Monthly Views&lt;/div&gt;&lt;div class="val" id="k_views"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="kpi"&gt;&lt;div class="label"&gt;Clicks&lt;/div&gt;&lt;div class="val" id="k_clicks"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="kpi"&gt;&lt;div class="label"&gt;Orders&lt;/div&gt;&lt;div class="val" id="k_orders"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="kpi"&gt;&lt;div class="label"&gt;Blended AOV&lt;/div&gt;&lt;div class="val" id="k_aov"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="kpi"&gt;&lt;div class="label"&gt;£ per 1,000 Views&lt;/div&gt;&lt;div class="val" id="k_rpmv"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="kpi"&gt;&lt;div class="label"&gt;Revenue (Total)&lt;/div&gt;&lt;div class="val" id="k_revenue"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;table class="table" style="margin-top:12px"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th&gt;Offer&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th&gt;Mix % (normalised)&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th&gt;Orders Allocated&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th&gt;AOV (£)&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th&gt;Revenue&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;tbody id="offerBody"&gt;&lt;/tbody&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;tfoot&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th&gt;Total&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th id="mixTotal"&gt;100%&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th id="ordersTotal"&gt;—&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th id="aovBlend"&gt;—&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;th id="revTotal"&gt;—&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/tfoot&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/table&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const gbp0 = n=&gt; new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0}).format(n||0);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const gbp2 = n=&gt; new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:2}).format(n||0);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const fmt = n=&gt; new Intl.NumberFormat('en-GB').format(Math.round(n||0));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const E = id=&gt;document.getElementById(id);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function pct(val){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let v = parseFloat(val);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(!isFinite(v)) return 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(v&gt;1) v = v/100; // allow 1 = 1%</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return Math.max(0,v);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function monthlyPosts(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const accounts = parseFloat(E('accounts')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ppm = parseFloat(E('ppm')?.value)||0; // per account</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return accounts * ppm;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function monthlyViews(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const mode = E('viewMode')?.value || 'perPost';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(mode==='monthly'){</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return parseFloat(E('monthlyViews')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const vpp = parseFloat(E('viewsPerPost')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return monthlyPosts() * vpp;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function blendedAOV(m1,m2,m3,a1,a2,a3){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return (a1*m1 + a2*m2 + a3*m3);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function compute(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(!E('k_posts')) return; // bail if DOM not ready</p>
-<p class="p1"><span class="Apple-converted-space">      </span>// toggle view inputs</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const mode = E('viewMode')?.value || 'perPost';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('row_vpp')) E('row_vpp').style.display = (mode==='perPost')? 'grid':'none';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('row_mv'))<span class="Apple-converted-space">  </span>E('row_mv').style.display<span class="Apple-converted-space">  </span>= (mode==='monthly')? 'grid':'none';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const posts = monthlyPosts();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const views = monthlyViews();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ctr = pct(E('ctr')?.value || 0.01);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const cvr = pct(E('cvr')?.value || 0.02);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Offer inputs</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const a1 = parseFloat(E('aov1')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const a2 = parseFloat(E('aov2')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const a3 = parseFloat(E('aov3')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let m1 = parseFloat(E('mix1')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let m2 = parseFloat(E('mix2')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let m3 = parseFloat(E('mix3')?.value)||0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const sum = m1+m2+m3;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let warn = false;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(sum&lt;=0){ m1=1; m2=0; m3=0; }</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(Math.round(sum)!==100){ warn=true; }</p>
-<p class="p1"><span class="Apple-converted-space">      </span>// normalise to 1</p>
-<p class="p1"><span class="Apple-converted-space">      </span>m1/=sum; m2/=sum; m3/=sum;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('mixWarn')) E('mixWarn').style.display = warn? 'block':'none';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const clicks = views * ctr;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const orders = clicks * cvr;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const rpmv = ctr * cvr * blendedAOV(m1,m2,m3,a1,a2,a3) * 1000; // £ per 1000 views</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Per-offer split</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const orders1 = orders * m1, orders2 = orders * m2, orders3 = orders * m3;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const rev1 = orders1 * a1, rev2 = orders2 * a2, rev3 = orders3 * a3;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const revTotal = rev1 + rev2 + rev3;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const aovBlend = blendedAOV(m1,m2,m3,a1,a2,a3);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// KPIs</p>
-<p class="p1"><span class="Apple-converted-space">      </span>E('k_posts').textContent = fmt(posts);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>E('k_views').textContent = fmt(views);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>E('k_clicks').textContent = fmt(clicks);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>E('k_orders').textContent = orders.toFixed(2);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>E('k_aov').textContent = gbp2(aovBlend);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>E('k_rpmv').textContent = gbp2(rpmv);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>E('k_revenue').textContent = gbp2(revTotal);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Offer table</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const body = document.getElementById('offerBody');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(body){</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body.innerHTML = '';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const rows = [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{name:'Offer 1 — BOGO', mix:m1, ord:orders1, aov:a1, rev:rev1},</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{name:'Offer 2 — Bundle Builder', mix:m2, ord:orders2, aov:a2, rev:rev2},</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{name:'Offer 3 — 3-for-£25', mix:m3, ord:orders3, aov:a3, rev:rev3},</p>
-<p class="p1"><span class="Apple-converted-space">        </span>];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>rows.forEach(r=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">          </span>const tr = document.createElement('tr');</p>
-<p class="p1"><span class="Apple-converted-space">          </span>tr.innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;td&gt;${r.name}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;td&gt;${(r.mix*100).toFixed(1)}%&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;td&gt;${r.ord.toFixed(2)}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;td&gt;${gbp2(r.aov)}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;td&gt;${gbp2(r.rev)}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>`;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>body.appendChild(tr);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('ordersTotal')) E('ordersTotal').textContent = orders.toFixed(2);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('aovBlend')) E('aovBlend').textContent = gbp2(aovBlend);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('revTotal')) E('revTotal').textContent = gbp2(revTotal);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function onMode(){ compute(); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function save(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ids=['accounts','ppm','viewMode','viewsPerPost','monthlyViews','ctr','cvr','aov1','aov2','aov3','mix1','mix2','mix3'];</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const state={}; ids.forEach(id=&gt; state[id]=E(id)?.value);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem('repeats_calc_revert_v2', JSON.stringify(state));</p>
-<p class="p1"><span class="Apple-converted-space">      </span>alert('Saved!');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function load(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const raw=localStorage.getItem('repeats_calc_revert_v2');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(!raw){ alert('No saved inputs found.'); return; }</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const s=JSON.parse(raw);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Object.keys(s).forEach(k=&gt;{ if(E(k)) E(k).value=s[k]; });</p>
-<p class="p1"><span class="Apple-converted-space">      </span>compute();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function reset(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('accounts')){E('accounts').value=6}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('ppm')){E('ppm').value=60}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('viewMode')){E('viewMode').value='perPost'}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('viewsPerPost')){E('viewsPerPost').value=10000}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('monthlyViews')){E('monthlyViews').value=0}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('ctr')){E('ctr').value=0.01}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('cvr')){E('cvr').value=0.02}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('aov1')){E('aov1').value=10}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('aov2')){E('aov2').value=28}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('aov3')){E('aov3').value=25}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('mix1')){E('mix1').value=35}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('mix2')){E('mix2').value=40}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(E('mix3')){E('mix3').value=25}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>compute();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>['accounts','ppm','viewsPerPost','monthlyViews','ctr','cvr','aov1','aov2','aov3','mix1','mix2','mix3'].forEach(id=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const el = E(id);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(!el) return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>['input','change','blur','keyup'].forEach(evt=&gt; el.addEventListener(evt, compute));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(E('viewMode')) E('viewMode').addEventListener('change', onMode);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(E('save')) E('save').addEventListener('click', save);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(E('load')) E('load').addEventListener('click', load);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(E('reset')) E('reset').addEventListener('click', reset);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(E('computeNow')) E('computeNow').addEventListener('click', compute);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Ensure first paint has numbers even if the environment delays script execution</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.addEventListener('DOMContentLoaded', ()=&gt;{ reset(); compute(); });</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Fallback: re-compute once more after a tick</p>
-<p class="p1"><span class="Apple-converted-space">    </span>setTimeout(compute, 50);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<div class="container">
+  <header>
+    <h1>RepEats Revenue Calculator</h1>
+    <p>Enter accounts, posting volume, views, CTR & CVR and your offer mix → see clicks, orders, revenue, and £ per 1,000 views.</p>
+  </header>
+
+  <section class="card">
+    <h2>Inputs</h2>
+    <label>Active Accounts Posting</label>
+    <input id="accounts" type="number" value="6" min="1"/>
+    <label>Posts per Month (per account)</label>
+    <input id="ppm" type="number" value="60" min="1"/>
+    <label>Views per Post</label>
+    <input id="views" type="number" value="1000" min="1"/>
+    <label>Click Through Rate (%)</label>
+    <input id="ctr" type="number" value="1" step="0.1" min="0"/>
+    <label>Conversion Rate (%)</label>
+    <input id="cvr" type="number" value="2" step="0.1" min="0"/>
+  </section>
+
+  <section class="card">
+    <h2>Offer Mix</h2>
+    <table>
+      <thead>
+        <tr><th>Offer</th><th>AOV (£)</th><th>Mix %</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Offer 1 — BOGO</td><td><input id="aov1" type="number" value="10"/></td><td><input id="mix1" type="number" value="35"/></td></tr>
+        <tr><td>Offer 2 — Bundle Builder</td><td><input id="aov2" type="number" value="28"/></td><td><input id="mix2" type="number" value="40"/></td></tr>
+        <tr><td>Offer 3 — 3-for-£25</td><td><input id="aov3" type="number" value="25"/></td><td><input id="mix3" type="number" value="25"/></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Results</h2>
+    <div class="kpi">
+      <div><div class="label">Total Posts / Month</div><div class="value" id="posts">-</div></div>
+      <div><div class="label">Total Monthly Views</div><div class="value" id="monthlyviews">-</div></div>
+      <div><div class="label">Clicks</div><div class="value" id="clicks">-</div></div>
+    </div>
+    <div class="kpi">
+      <div><div class="label">Orders</div><div class="value" id="orders">-</div></div>
+      <div><div class="label">Blended AOV</div><div class="value" id="blendedaov">-</div></div>
+      <div><div class="label">£ per 1,000 Views</div><div class="value" id="revper1k">-</div></div>
+    </div>
+    <div class="kpi">
+      <div style="grid-column: span 3;">
+        <div class="label">Revenue (Total)</div>
+        <div class="value" id="revenue">-</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+function recalc() {
+  const accounts = +document.getElementById('accounts').value || 0;
+  const ppm = +document.getElementById('ppm').value || 0;
+  const views = +document.getElementById('views').value || 0;
+  const ctr = (+document.getElementById('ctr').value || 0) / 100;
+  const cvr = (+document.getElementById('cvr').value || 0) / 100;
+  const aov1 = +document.getElementById('aov1').value || 0;
+  const aov2 = +document.getElementById('aov2').value || 0;
+  const aov3 = +document.getElementById('aov3').value || 0;
+  const mix1 = +document.getElementById('mix1').value || 0;
+  const mix2 = +document.getElementById('mix2').value || 0;
+  const mix3 = +document.getElementById('mix3').value || 0;
+
+  const mixTotal = mix1 + mix2 + mix3 || 1;
+  const norm1 = mix1 / mixTotal;
+  const norm2 = mix2 / mixTotal;
+  const norm3 = mix3 / mixTotal;
+
+  const blendedAOV = (aov1*norm1 + aov2*norm2 + aov3*norm3).toFixed(2);
+
+  const posts = accounts * ppm;
+  const monthlyViews = posts * views;
+  const clicks = Math.round(monthlyViews * ctr);
+  const orders = Math.round(clicks * cvr);
+  const revenue = Math.round(orders * blendedAOV);
+  const revPer1k = (monthlyViews ? (revenue / monthlyViews * 1000).toFixed(2) : 0);
+
+  document.getElementById('posts').textContent = posts.toLocaleString();
+  document.getElementById('monthlyviews').textContent = monthlyViews.toLocaleString();
+  document.getElementById('clicks').textContent = clicks.toLocaleString();
+  document.getElementById('orders').textContent = orders.toLocaleString();
+  document.getElementById('blendedaov').textContent = "£" + blendedAOV;
+  document.getElementById('revenue').textContent = "£" + revenue.toLocaleString();
+  document.getElementById('revper1k').textContent = "£" + revPer1k;
+}
+
+document.querySelectorAll('input').forEach(el => el.addEventListener('input', recalc));
+recalc();
+</script>
 </body>
 </html>
